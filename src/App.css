@@ -7,12 +7,18 @@
 #f9f5f3
 */
 
+@import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
 body {
     background-color: #f7c9b6;
+    font-family: "Montserrat", open-sans;
+    font-weight: 400;
+    font-style: normal;
 }
 
 main {
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 .container {
@@ -38,6 +44,13 @@ main {
     background-color: #f9f5f3;
     display: flex;
     align-items: center;
+
+    & > h1 {
+        font-family: "Bagel Fat One", open-sans;
+        font-weight: 300;
+        font-style: normal;
+        font-size: 4rem;
+    }
 }
 .aside {
     grid-area: aside;

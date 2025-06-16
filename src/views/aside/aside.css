@@ -1,0 +1,36 @@
+.aside {
+    grid-area: aside;
+}
+
+.results {
+    /* margin: 2rem; */
+}
+
+.result {
+    display: grid;
+    grid-template-columns: 10rem 2fr;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 1rem;
+    padding: 1rem 0 0.5rem 1rem;
+
+    transition: background, transform 0.2s ease;
+
+    img {
+        max-width: 8rem;
+        border-radius: 50rem;
+    }
+
+    h4 {
+        font-size: 1.6rem;
+    }
+
+    span {
+        font-size: 1.2rem;
+    }
+}
+
+.result:hover {
+    background-color: var(--olive-lighter);
+    transform: translateY(-0.2rem);
+}

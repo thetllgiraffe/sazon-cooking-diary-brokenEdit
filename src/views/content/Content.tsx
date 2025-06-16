@@ -18,6 +18,14 @@ export function Content({ currentMeal }: { currentMeal: Meal }) {
 
     const preparation = currentMeal?.strInstructions?.split(".")?.filter((step) => step);
 
+    if (!Object.keys(currentMeal).length) {
+        return (
+            <section className="content">
+                <h2 className="no-content">Start by searching for an ingredient 🧑‍🍳</h2>
+            </section>
+        );
+    }
+
     return (
         <section className="content">
             <div

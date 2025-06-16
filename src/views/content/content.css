@@ -19,6 +19,13 @@
     background-image: linear-gradient(to right, rgb(212, 77, 39, 0.6), rgb(212, 77, 39, 0.5));
 }
 
+.no-content {
+    margin-top: 10rem;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
 .ingredients__section {
     background-color: #fffffe96;
 }

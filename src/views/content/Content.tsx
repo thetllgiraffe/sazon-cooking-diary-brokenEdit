@@ -3,8 +3,6 @@ import type { Meal } from "../../models/Imeals";
 import "./content.css";
 
 export function Content({ currentMeal }: { currentMeal: Meal }) {
-    console.log(currentMeal);
-
     const allIngredients = Object.entries(currentMeal).filter(
         ([key, val]) => key.includes("strIngredient") && val,
     );
@@ -18,9 +16,7 @@ export function Content({ currentMeal }: { currentMeal: Meal }) {
         allMeasures[i][1],
     ]);
 
-    const preparation = currentMeal?.strInstructions.split(".").filter((step) => step);
-
-    console.log(preparation);
+    const preparation = currentMeal?.strInstructions?.split(".")?.filter((step) => step);
 
     return (
         <section className="content">

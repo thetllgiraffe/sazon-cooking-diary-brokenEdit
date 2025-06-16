@@ -9,16 +9,22 @@ interface SearchResult {
 
 export function SearchResults({
     results,
+    current,
     onClick,
 }: {
     results: SearchResult[];
+    current: string;
     onClick: (id: string) => void;
 }) {
     return (
         <aside className="aside">
             <ul className="results">
                 {results?.map((meal) => (
-                    <li key={meal.id} className="result" onClick={() => onClick(meal.id)}>
+                    <li
+                        key={meal.id}
+                        className={`result ${current === meal.id ? "active" : ""}`}
+                        onClick={() => onClick(meal.id)}
+                    >
                         <img src={`${meal?.img}`} alt="meal thumbnail" />
                         <div>
                             <h4>{meal?.name}</h4>

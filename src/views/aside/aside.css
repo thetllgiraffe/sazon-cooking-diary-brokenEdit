@@ -2,10 +2,6 @@
     grid-area: aside;
 }
 
-.results {
-    /* margin: 2rem; */
-}
-
 .result {
     display: grid;
     grid-template-columns: 10rem 2fr;
@@ -23,6 +19,8 @@
 
     h4 {
         font-size: 1.6rem;
+        text-transform: uppercase;
+        color: var(--cinnabar);
     }
 
     span {
@@ -33,4 +31,8 @@
 .result:hover {
     background-color: var(--olive-lighter);
     transform: translateY(-0.2rem);
+}
+
+.active {
+    background-color: var(--olive-lighter);
 }

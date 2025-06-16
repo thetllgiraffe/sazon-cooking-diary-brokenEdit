@@ -1,0 +1,77 @@
+.content--image {
+    background-size: cover;
+    background-position: center;
+
+    height: 30rem;
+    position: relative;
+}
+
+.content--image h3 {
+    position: absolute;
+    top: 25%;
+    text-align: left;
+    padding: 1.5rem;
+    width: 100%;
+    margin: 0 auto;
+    font-size: 5rem;
+    color: #f9f5f3;
+    font-family: "Bagel Fat One";
+    background-image: linear-gradient(to right, rgb(212, 77, 39, 0.6), rgb(212, 77, 39, 0.5));
+}
+
+.ingredients__section {
+    background-color: #fffffe96;
+}
+
+.ingredients__section h3,
+.preparation__section h3 {
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-top: 2rem;
+    text-align: center;
+    color: var(--cinnabar);
+}
+
+.ingredients {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin-top: 2rem;
+}
+
+.ingredients li {
+    padding: 0.3rem 0;
+    text-transform: capitalize;
+    font-size: 1.6rem;
+    display: grid;
+    grid-template-columns: 13rem 1fr;
+    align-items: center;
+}
+
+.ingredients li span {
+    padding: 0.6rem;
+}
+
+.ingredients svg {
+    fill: red;
+    width: 2rem;
+    height: 2rem;
+}
+
+.preparation__section ol {
+    padding: 3rem 1rem;
+    font-size: 1.6rem;
+    color: #3e2f2f;
+    margin-left: 4rem;
+    list-style: none;
+}
+
+.preparation__section ol li {
+    padding-bottom: 0.6rem;
+}
+
+.preparation__section ol li span:first-child {
+    color: var(--cinnabar);
+}

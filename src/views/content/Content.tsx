@@ -3,18 +3,16 @@ import type { Meal } from "../../models/Imeals";
 import "./content.css";
 
 export function Content({ currentMeal }: { currentMeal: Meal }) {
-    const allIngredients = Object.entries(currentMeal).filter(
-        ([key, val]) => key.includes("strIngredient") && val,
+    const allIngredients = Object.entries(currentMeal).filter(([key]) =>
+        key.includes("strIngredient"),
     );
 
-    const allMeasures = Object.entries(currentMeal).filter(
-        ([key, val]) => key.includes("strMeasure") && val,
-    );
+    const allMeasures = Object.entries(currentMeal).filter(([key]) => key.includes("strMeasure"));
 
     const allIngredientsAndMeasures = Array.from({ length: allIngredients.length }, (_, i) => [
         allIngredients[i][1],
-        allMeasures[i][1],
-    ]);
+        allMeasures[i][1] || "1",
+    ]).filter(([key]) => key);
 
     const preparation = currentMeal?.strInstructions?.split(".")?.filter((step) => step);
 

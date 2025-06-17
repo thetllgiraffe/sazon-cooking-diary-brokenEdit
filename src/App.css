@@ -10,8 +10,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 
+:root {
+    --background: #f7c9b6;
+    --pale-gray: #f9f5f3;
+    --cinnabar: #d44d27;
+    --olive: #8d8741;
+    --olive-light: #8d874180;
+    --olive-lighter: #8d874134;
+    --sienna: #e27d60;
+    --brown: #3e2f2f;
+}
+
 body {
-    background-color: #f7c9b6;
+    background-color: var(--background);
     font-family: "Montserrat", open-sans;
     font-weight: 400;
     font-style: normal;
@@ -39,27 +50,12 @@ main {
     grid-template-columns: 1fr 2fr;
 }
 
-.nav {
-    grid-area: nav;
-    background-color: #f9f5f3;
-    display: flex;
-    align-items: center;
-
-    & > h1 {
-        font-family: "Bagel Fat One", open-sans;
-        font-weight: 300;
-        font-style: normal;
-        font-size: 4rem;
-    }
-}
-.aside {
-    grid-area: aside;
-}
 .content {
     grid-area: content;
-    background-color: #f9f5f3;
+    background-color: var(--pale-gray);
 }
 footer {
     grid-area: footer;
-    background-color: red;
+    text-align: center;
+    font-size: 1.5rem;
 }

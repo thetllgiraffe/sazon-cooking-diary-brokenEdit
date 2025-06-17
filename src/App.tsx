@@ -1,18 +1,59 @@
+import { Content, Header, SearchResults } from "./views/";
 import "./App.css";
 
+import { useMeals } from "./hooks/useMeals";
+
 function App() {
+    const {
+        meals,
+        currentMeal,
+        error,
+        handleSearchInput,
+        isLoading,
+        searchMeals,
+        searchTerm,
+        selectMeal,
+    } = useMeals();
+
     return (
-        <body>
+        <>
             <main className="container">
-                <header className="nav">
-                    <h1>Sazon</h1>
-                    <nav>seachbar</nav>
-                </header>
-                <aside className="aside">aside</aside>
-                <section className="content">content</section>
-                <footer>footer</footer>
+                <Header
+                    onChange={handleSearchInput}
+                    onClick={searchMeals}
+                    searchVal={searchTerm}
+                    onRandom={() => searchMeals(true)}
+                />
+
+                <SearchResults
+                    onClick={selectMeal}
+                    results={meals?.map((meal) => {
+                        return {
+                            img: meal.strMealThumb,
+                            name: meal.strMeal,
+                            id: meal.idMeal,
+                            tags: meal.strTags,
+                        };
+                    })}
+                    current={currentMeal?.idMeal}
+                    isLoading={isLoading}
+                    error={error}
+                />
+
+                <Content currentMeal={currentMeal} />
+
+                <footer
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "flex-end",
+                        paddingBottom: "1.5rem",
+                    }}
+                >
+                    Made with love by edu
+                </footer>
             </main>
-        </body>
+        </>
     );
 }
 

@@ -36,3 +36,26 @@
 .active {
     background-color: var(--olive-lighter);
 }
+
+.error {
+    text-align: center;
+    margin-top: 3rem;
+    color: var(--cinnabar);
+}
+
+.loading {
+    text-align: center;
+    margin-top: 3rem;
+    /* opacity: 0.5; */
+    animation: animation-loading 0.7s ease infinite;
+}
+
+@keyframes animation-loading {
+    from {
+        opacity: 0.5;
+    }
+
+    to {
+        opacity: 0.8;
+    }
+}

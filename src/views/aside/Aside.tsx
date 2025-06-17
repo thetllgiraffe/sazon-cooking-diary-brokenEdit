@@ -11,11 +11,23 @@ export function SearchResults({
     results,
     current,
     onClick,
+    isLoading,
+    error,
 }: {
     results: SearchResult[];
     current: string;
     onClick: (id: string) => void;
+    isLoading: boolean;
+    error: string;
 }) {
+    if (isLoading) {
+        return <div className="loading">🧑‍🍳 Loading...🍗</div>;
+    }
+
+    if (error) {
+        return <div className="error">⚠️ {error} 🚫</div>;
+    }
+
     return (
         <aside className="aside">
             <ul className="results">

@@ -1,13 +1,24 @@
+import { useRef } from "react";
 import "./header.css";
 
-export function Header() {
+export function Header({
+    onChange,
+    onClick,
+    searchVal,
+    onRandom,
+}: {
+    onChange: (str: string) => void;
+    onClick: () => Promise<void>;
+    onRandom: () => Promise<void>;
+    searchVal: string;
+}) {
     return (
         <header className="nav">
             <h1>Sazón</h1>
             <nav>
-                <Searchbar />
+                <Searchbar onChange={onChange} onClick={onClick} searchVal={searchVal} />
                 <div className="btns">
-                    <Button label="Random">
+                    <Button label="Random" onClick={onRandom}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -48,10 +59,41 @@ export function Header() {
     );
 }
 
-function Searchbar() {
+function Searchbar({
+    onChange,
+    onClick,
+    searchVal,
+}: {
+    onChange: (str: string) => void;
+    onClick: () => Promise<void>;
+    searchVal: string;
+}) {
+    const inputRef = useRef(null);
+
+    function onSearch() {
+        onClick();
+        inputRef?.current.focus();
+        onChange("");
+    }
+
     return (
         <div className="search">
-            <input type="text" placeholder="Search by recipe" name="" id="" />
+            <input
+                ref={inputRef}
+                type="text"
+                placeholder="Search by recipe"
+                name=""
+                id=""
+                onChange={(e) => {
+                    onChange(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        onSearch();
+                    }
+                }}
+                value={searchVal}
+            />
             <button>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -62,15 +104,23 @@ function Searchbar() {
                 >
                     <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
                 </svg>
-                <span>Search</span>
+                <span onClick={() => onSearch()}>Search</span>
             </button>
         </div>
     );
 }
 
-function Button({ label, children }: { label: string; children: React.ReactNode }) {
+function Button({
+    label,
+    children,
+    onClick,
+}: {
+    label: string;
+    onClick?: () => Promise<void>;
+    children: React.ReactNode;
+}) {
     return (
-        <div className="btn">
+        <div className="btn" onClick={onClick}>
             {children}
             <span>{label}</span>
         </div>

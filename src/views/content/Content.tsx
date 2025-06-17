@@ -1,8 +1,21 @@
+import { useEffect, useState } from "react";
 import type { Meal } from "../../models/Imeals";
 
 import "./content.css";
 
+interface Bookmark {
+    name: string;
+    id: string;
+    img: string;
+}
+
 export function Content({ currentMeal }: { currentMeal: Meal }) {
+    const bookmarks: Bookmark[] = JSON.parse(localStorage.getItem("bookmarks" || "[]"));
+
+    const [isBookmarked, setIsBookmarked] = useState<boolean>(
+        bookmarks.some((recipe) => recipe.id === currentMeal.idMeal),
+    );
+
     const allIngredients = Object.entries(currentMeal).filter(([key]) =>
         key.includes("strIngredient"),
     );
@@ -15,6 +28,38 @@ export function Content({ currentMeal }: { currentMeal: Meal }) {
     ]).filter(([key]) => key);
 
     const preparation = currentMeal?.strInstructions?.split(".")?.filter((step) => step);
+
+    useEffect(() => {
+        const bookmarks = JSON.parse(localStorage.getItem("bookmarks") || "[]");
+        setIsBookmarked(bookmarks.some((recipe: Bookmark) => recipe.id === currentMeal.idMeal));
+    }, [currentMeal.idMeal]);
+
+    function bookmarkRecipe() {
+        const areBookmarksCreated = localStorage.getItem("bookmarks");
+
+        if (!areBookmarksCreated) localStorage.setItem("bookmarks", "[]");
+
+        const findRecipeInBookmarks = bookmarks.find((recipe) => recipe.id === currentMeal.idMeal);
+
+        if (!findRecipeInBookmarks) {
+            const addRecipeToBookmarks = [
+                ...bookmarks,
+                {
+                    id: currentMeal.idMeal,
+                    img: currentMeal.strMealThumb,
+                    name: currentMeal.strMeal,
+                },
+            ];
+
+            localStorage.setItem("bookmarks", JSON.stringify(addRecipeToBookmarks));
+        } else {
+            const removeRecipeFromBookmarks = bookmarks.filter(
+                (recipe) => recipe.id !== findRecipeInBookmarks.id,
+            );
+
+            localStorage.setItem("bookmarks", JSON.stringify(removeRecipeFromBookmarks));
+        }
+    }
 
     if (!Object.keys(currentMeal).length) {
         return (
@@ -36,6 +81,15 @@ export function Content({ currentMeal }: { currentMeal: Meal }) {
                 }}
             >
                 <h3>{currentMeal.strMeal}</h3>
+                <i
+                    className="bookmark"
+                    onClick={() => {
+                        setIsBookmarked((prev) => !prev);
+                        bookmarkRecipe();
+                    }}
+                >
+                    {isBookmarked ? <BookmarkActive /> : <Bookmark />}
+                </i>
             </div>
 
             <div className="ingredients__section">
@@ -76,5 +130,33 @@ export function Content({ currentMeal }: { currentMeal: Meal }) {
                 </ol>
             </div>
         </section>
+    );
+}
+
+function Bookmark() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="#000000"
+            viewBox="0 0 256 256"
+        >
+            <path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Zm0,177.57-51.77-32.35a8,8,0,0,0-8.48,0L72,209.57V48H184Z"></path>
+        </svg>
+    );
+}
+
+function BookmarkActive() {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="#000000"
+            viewBox="0 0 256 256"
+        >
+            <path d="M184,32H72A16,16,0,0,0,56,48V224a8,8,0,0,0,12.24,6.78L128,193.43l59.77,37.35A8,8,0,0,0,200,224V48A16,16,0,0,0,184,32Z"></path>
+        </svg>
     );
 }

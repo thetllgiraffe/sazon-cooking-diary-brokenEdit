@@ -19,6 +19,20 @@
     background-image: linear-gradient(to right, rgb(212, 77, 39, 0.6), rgb(212, 77, 39, 0.5));
 }
 
+.content--image i.bookmark {
+    position: absolute;
+    bottom: 4%;
+    right: 3%;
+    cursor: pointer;
+    border: 2px solid var(--pale-gray);
+    padding: 0.5rem 0.75rem 0.3rem 0.75rem;
+    border-radius: 50rem;
+}
+
+.bookmark svg {
+    fill: var(--pale-gray);
+}
+
 .no-content {
     margin-top: 10rem;
     text-align: center;

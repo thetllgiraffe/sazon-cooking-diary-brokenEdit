@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import type { Meal } from "../../models/Imeals";
 
 import "./content.css";
+import { MealContext } from "../../context/MealContext";
 
 interface Bookmark {
     name: string;
@@ -9,12 +10,26 @@ interface Bookmark {
     img: string;
 }
 
-export function Content({ currentMeal }: { currentMeal: Meal }) {
-    const bookmarks: Bookmark[] = JSON.parse(localStorage.getItem("bookmarks" || "[]"));
+export function Content() {
+    const { currentMeal, bookmarks, setBookmarks, setIsBookmarked, isBookmarked } =
+        useContext(MealContext);
+    // const currentMeal = context.currentMeal as Meal;
+    // const bookmarks = context.bookmarks;
+    // const setBookmarks = context.setBookmarks;
 
-    const [isBookmarked, setIsBookmarked] = useState<boolean>(
-        bookmarks.some((recipe) => recipe.id === currentMeal.idMeal),
-    );
+    // const bookmarks: Bookmark[] = JSON.parse(localStorage.getItem("bookmarks" || "[]"));
+
+    // const [isBookmarked, setIsBookmarked] = useState<boolean>(
+    //     bookmarks?.some((recipe) => recipe.id === currentMeal.idMeal),
+    // );
+
+    useEffect(() => {
+        const storedBookmarks = JSON.parse(localStorage.getItem("bookmarks") || "[]");
+        setBookmarks(storedBookmarks);
+        setIsBookmarked(
+            storedBookmarks?.some((recipe: Bookmark) => recipe.id === currentMeal?.idMeal),
+        );
+    }, [currentMeal?.idMeal, setBookmarks, setIsBookmarked]);
 
     const allIngredients = Object.entries(currentMeal).filter(([key]) =>
         key.includes("strIngredient"),
@@ -29,36 +44,31 @@ export function Content({ currentMeal }: { currentMeal: Meal }) {
 
     const preparation = currentMeal?.strInstructions?.split(".")?.filter((step) => step);
 
-    useEffect(() => {
-        const bookmarks = JSON.parse(localStorage.getItem("bookmarks") || "[]");
-        setIsBookmarked(bookmarks.some((recipe: Bookmark) => recipe.id === currentMeal.idMeal));
-    }, [currentMeal.idMeal]);
-
     function bookmarkRecipe() {
-        const areBookmarksCreated = localStorage.getItem("bookmarks");
+        const currentBookmarks = JSON.parse(localStorage.getItem("bookmarks") || "[]");
+        const existingIndex = currentBookmarks.findIndex(
+            (recipe) => recipe.id === currentMeal.idMeal,
+        );
 
-        if (!areBookmarksCreated) localStorage.setItem("bookmarks", "[]");
-
-        const findRecipeInBookmarks = bookmarks.find((recipe) => recipe.id === currentMeal.idMeal);
-
-        if (!findRecipeInBookmarks) {
-            const addRecipeToBookmarks = [
-                ...bookmarks,
+        let updatedBookmarks;
+        if (existingIndex === -1) {
+            updatedBookmarks = [
+                ...currentBookmarks,
                 {
-                    id: currentMeal.idMeal,
-                    img: currentMeal.strMealThumb,
-                    name: currentMeal.strMeal,
+                    id: currentMeal?.idMeal,
+                    img: currentMeal?.strMealThumb,
+                    name: currentMeal?.strMeal,
                 },
             ];
-
-            localStorage.setItem("bookmarks", JSON.stringify(addRecipeToBookmarks));
         } else {
-            const removeRecipeFromBookmarks = bookmarks.filter(
-                (recipe) => recipe.id !== findRecipeInBookmarks.id,
+            updatedBookmarks = currentBookmarks.filter(
+                (recipe) => recipe.id !== currentMeal?.idMeal,
             );
-
-            localStorage.setItem("bookmarks", JSON.stringify(removeRecipeFromBookmarks));
         }
+
+        localStorage.setItem("bookmarks", JSON.stringify(updatedBookmarks));
+        setBookmarks(updatedBookmarks);
+        setIsBookmarked(!isBookmarked);
     }
 
     if (!Object.keys(currentMeal).length) {

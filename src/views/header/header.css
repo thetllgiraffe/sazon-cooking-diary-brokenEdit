@@ -6,25 +6,36 @@
     grid-template-columns: 20rem 3fr;
     align-items: center;
     position: relative;
+}
 
-    & > nav {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
+.nav > nav {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
 
-        div:nth-child(2) {
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-        }
+.btns {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+h1 {
+    font-family: "Bagel Fat One", open-sans;
+    font-weight: 300;
+    font-style: light;
+    font-size: 4rem;
+    margin-left: 1rem;
+    color: var(--sienna);
+}
+
+@media only screen and (max-width: 767px) {
+    .nav nav {
+        display: flex;
+        flex-direction: column-reverse;
     }
 
-    & > h1 {
-        font-family: "Bagel Fat One", open-sans;
-        font-weight: 300;
-        font-style: light;
-        font-size: 4rem;
-        margin-left: 1rem;
-        color: var(--sienna);
+    .nav .btns {
+        justify-content: flex-start;
     }
 }
 
@@ -72,6 +83,7 @@
     font-size: 1.4rem;
     text-transform: uppercase;
     transition: background-color 0.6s ease;
+    position: relative;
 
     svg {
         fill: var(--cinnabar);

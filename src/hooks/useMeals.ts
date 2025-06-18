@@ -1,5 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Meal } from "../models/Imeals";
+
+interface Bookmark {
+    name: string;
+    id: string;
+    img: string;
+}
 
 export function useMeals() {
     const [meals, setMeals] = useState<Meal[]>([] as Meal[]);
@@ -7,6 +13,8 @@ export function useMeals() {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [error, setError] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
+    const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
 
     function selectMeal(id: string) {
         const curMeal = meals?.find((meal) => meal.idMeal === id);
@@ -20,7 +28,7 @@ export function useMeals() {
 
     type Fetch = "random" | "search" | "id";
 
-    async function searchMeals(type: Fetch = "search") {
+    async function searchMeals(type: Fetch = "search", id?: string) {
         if (type === "search") {
             if (!searchTerm.trim()) {
                 setError("Please enter a search term");
@@ -33,13 +41,11 @@ export function useMeals() {
 
         const url = {
             random: "https://www.themealdb.com/api/json/v1/1/random.php",
-            id: `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
+            id: `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
             search: `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`,
         };
 
         const res = await fetch(url[type]);
-
-        // "www.themealdb.com/api/json/v1/1/lookup.php?i=52772"
 
         try {
             const data = await res.json();
@@ -53,6 +59,7 @@ export function useMeals() {
 
             setError("");
             setMeals(meals);
+            if (type === "id" || type === "random") setCurrentMeal(meals[0]);
         } catch (error) {
             console.error("Error fetching meals: ", error);
             setMeals([]);
@@ -70,5 +77,9 @@ export function useMeals() {
         selectMeal,
         handleSearchInput,
         searchMeals,
+        bookmarks,
+        setBookmarks,
+        isBookmarked,
+        setIsBookmarked,
     };
 }

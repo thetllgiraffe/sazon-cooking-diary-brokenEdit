@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import "./aside.css";
+import { MealContext } from "../../context/MealContext";
 
 interface SearchResult {
     img: string;
@@ -7,19 +9,9 @@ interface SearchResult {
     id: string;
 }
 
-export function SearchResults({
-    results,
-    current,
-    onClick,
-    isLoading,
-    error,
-}: {
-    results: SearchResult[];
-    current: string;
-    onClick: (id: string) => void;
-    isLoading: boolean;
-    error: string;
-}) {
+export function SearchResults({ results }: { results: SearchResult[] }) {
+    const { selectMeal, isLoading, error, currentMeal } = useContext(MealContext);
+
     if (isLoading) {
         return <div className="loading">🧑‍🍳 Loading...🍗</div>;
     }
@@ -34,8 +26,8 @@ export function SearchResults({
                 {results?.map((meal) => (
                     <li
                         key={meal.id}
-                        className={`result ${current === meal.id ? "active" : ""}`}
-                        onClick={() => onClick(meal.id)}
+                        className={`result ${currentMeal?.idMeal === meal.id ? "active" : ""}`}
+                        onClick={() => selectMeal(meal.id)}
                     >
                         <img src={`${meal?.img}`} alt="meal thumbnail" />
                         <div>

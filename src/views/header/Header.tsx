@@ -2,28 +2,16 @@ import { useContext, useRef, useState } from "react";
 import "./header.css";
 import { MealContext } from "../../context/MealContext";
 
-export function Header({
-    onChange,
-    onClick,
-    searchVal,
-    onRandom,
-}: {
-    onChange: (str: string) => void;
-    onClick: () => Promise<void>;
-    onRandom: () => Promise<void>;
-    searchVal: string;
-}) {
-    const context = useContext(MealContext);
-
-    const bookmarks = JSON.parse(localStorage.getItem("bookmarks" || "[]"));
+export function Header() {
+    const { searchMeals, bookmarks } = useContext(MealContext);
 
     return (
         <header className="nav">
             <h1>Sazón</h1>
             <nav>
-                <Searchbar onChange={onChange} onClick={onClick} searchVal={searchVal} />
+                <Searchbar />
                 <div className="btns">
-                    <Button label="Random" onClick={onRandom}>
+                    <Button label="Random" onClick={() => searchMeals("random")}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -35,7 +23,7 @@ export function Header({
                         </svg>
                     </Button>
 
-                    <Button label="Add Recipe">
+                    {/* <Button label="Add Recipe">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -45,7 +33,7 @@ export function Header({
                         >
                             <path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-40-64a8,8,0,0,1-8,8H136v16a8,8,0,0,1-16,0V160H104a8,8,0,0,1,0-16h16V128a8,8,0,0,1,16,0v16h16A8,8,0,0,1,160,152Z"></path>
                         </svg>
-                    </Button>
+                    </Button> */}
 
                     <Button label="Bookmarks" bookmarks={bookmarks}>
                         <svg
@@ -64,21 +52,15 @@ export function Header({
     );
 }
 
-function Searchbar({
-    onChange,
-    onClick,
-    searchVal,
-}: {
-    onChange: (str: string) => void;
-    onClick: () => Promise<void>;
-    searchVal: string;
-}) {
+function Searchbar() {
+    const { handleSearchInput, searchTerm, searchMeals } = useContext(MealContext);
+
     const inputRef = useRef(null);
 
     function onSearch() {
-        onClick();
+        searchMeals("search");
         inputRef?.current.focus();
-        onChange("");
+        handleSearchInput("");
     }
 
     return (
@@ -90,16 +72,16 @@ function Searchbar({
                 name=""
                 id=""
                 onChange={(e) => {
-                    onChange(e.target.value);
+                    handleSearchInput(e.target.value);
                 }}
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
                         onSearch();
                     }
                 }}
-                value={searchVal}
+                value={searchTerm}
             />
-            <button>
+            <button style={{ cursor: "pointer" }}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -109,7 +91,7 @@ function Searchbar({
                 >
                     <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
                 </svg>
-                <span onClick={() => onSearch()}>Search</span>
+                <span onClick={() => searchMeals("search")}>Search</span>
             </button>
         </div>
     );
@@ -131,6 +113,7 @@ function Button({
     }>;
 }) {
     const [isHover, setIsHover] = useState<boolean>(false);
+    const { searchMeals } = useContext(MealContext);
 
     return (
         <>
@@ -150,7 +133,7 @@ function Button({
                 {children}
                 <span>{label}</span>
             </div>
-            {bookmarks?.length && isHover && (
+            {bookmarks && bookmarks?.length > 0 && isHover && (
                 <ul
                     className="bookmarks"
                     onMouseLeave={() => {
@@ -160,7 +143,12 @@ function Button({
                     }}
                 >
                     {bookmarks.map((bookmark) => (
-                        <li key={bookmark.id} onClick={() => console.log(bookmark.id)}>
+                        <li
+                            key={bookmark.id}
+                            onClick={() => {
+                                searchMeals("id", bookmark.id);
+                            }}
+                        >
                             <img src={bookmark.img} alt="bookmark" />
                             <h5>{bookmark.name}</h5>
                         </li>

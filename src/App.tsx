@@ -17,7 +17,13 @@ function App() {
         searchMeals,
         searchTerm,
         selectMeal,
+        bookmarks,
+        setBookmarks,
+        isBookmarked,
+        setIsBookmarked,
     } = useMeals();
+
+    // console.log("meals", meals);
 
     return (
         <MealContext.Provider
@@ -30,18 +36,16 @@ function App() {
                 searchMeals,
                 searchTerm,
                 selectMeal,
+                bookmarks,
+                setBookmarks,
+                isBookmarked,
+                setIsBookmarked,
             }}
         >
             <main className="container">
-                <Header
-                    onChange={handleSearchInput}
-                    onClick={() => searchMeals("search")}
-                    searchVal={searchTerm}
-                    onRandom={() => searchMeals("random")}
-                />
+                <Header />
 
                 <SearchResults
-                    onClick={selectMeal}
                     results={meals?.map((meal) => {
                         return {
                             img: meal.strMealThumb,
@@ -50,9 +54,6 @@ function App() {
                             tags: meal.strTags,
                         };
                     })}
-                    current={currentMeal?.idMeal}
-                    isLoading={isLoading}
-                    error={error}
                 />
 
                 <Content currentMeal={currentMeal} />

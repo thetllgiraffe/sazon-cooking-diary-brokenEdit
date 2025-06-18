@@ -1,5 +1,6 @@
-import { useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import "./header.css";
+import { MealContext } from "../../context/MealContext";
 
 export function Header({
     onChange,
@@ -12,6 +13,10 @@ export function Header({
     onRandom: () => Promise<void>;
     searchVal: string;
 }) {
+    const context = useContext(MealContext);
+
+    const bookmarks = JSON.parse(localStorage.getItem("bookmarks" || "[]"));
+
     return (
         <header className="nav">
             <h1>Sazón</h1>
@@ -42,7 +47,7 @@ export function Header({
                         </svg>
                     </Button>
 
-                    <Button label="Bookmarks">
+                    <Button label="Bookmarks" bookmarks={bookmarks}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -114,15 +119,54 @@ function Button({
     label,
     children,
     onClick,
+    bookmarks,
 }: {
     label: string;
     onClick?: () => Promise<void>;
     children: React.ReactNode;
+    bookmarks?: Array<{
+        name: string;
+        id: string;
+        img: string;
+    }>;
 }) {
+    const [isHover, setIsHover] = useState<boolean>(false);
+
     return (
-        <div className="btn" onClick={onClick}>
-            {children}
-            <span>{label}</span>
-        </div>
+        <>
+            <div
+                className="btn"
+                onClick={onClick}
+                onMouseEnter={() => {
+                    if (bookmarks?.length) {
+                        setIsHover(true);
+                    }
+
+                    if (!bookmarks?.length) {
+                        setIsHover(false);
+                    }
+                }}
+            >
+                {children}
+                <span>{label}</span>
+            </div>
+            {bookmarks?.length && isHover && (
+                <ul
+                    className="bookmarks"
+                    onMouseLeave={() => {
+                        if (bookmarks?.length) {
+                            setIsHover(false);
+                        }
+                    }}
+                >
+                    {bookmarks.map((bookmark) => (
+                        <li key={bookmark.id} onClick={() => console.log(bookmark.id)}>
+                            <img src={bookmark.img} alt="bookmark" />
+                            <h5>{bookmark.name}</h5>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </>
     );
 }

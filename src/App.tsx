@@ -2,6 +2,10 @@ import { Content, Header, SearchResults } from "./views/";
 import "./App.css";
 
 import { useMeals } from "./hooks/useMeals";
+import { MealContext } from "./context/MealContext";
+// import { createContext } from "react";
+
+// const MealContext = createContext(null);
 
 function App() {
     const {
@@ -16,13 +20,24 @@ function App() {
     } = useMeals();
 
     return (
-        <>
+        <MealContext.Provider
+            value={{
+                meals,
+                currentMeal,
+                error,
+                handleSearchInput,
+                isLoading,
+                searchMeals,
+                searchTerm,
+                selectMeal,
+            }}
+        >
             <main className="container">
                 <Header
                     onChange={handleSearchInput}
-                    onClick={searchMeals}
+                    onClick={() => searchMeals("search")}
                     searchVal={searchTerm}
-                    onRandom={() => searchMeals(true)}
+                    onRandom={() => searchMeals("random")}
                 />
 
                 <SearchResults
@@ -53,7 +68,7 @@ function App() {
                     Made with love by edu
                 </footer>
             </main>
-        </>
+        </MealContext.Provider>
     );
 }
 

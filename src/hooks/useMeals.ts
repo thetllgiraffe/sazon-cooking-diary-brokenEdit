@@ -18,8 +18,10 @@ export function useMeals() {
         if (error) setError("");
     }
 
-    async function searchMeals(random = false) {
-        if (!random) {
+    type Fetch = "random" | "search" | "id";
+
+    async function searchMeals(type: Fetch = "search") {
+        if (type === "search") {
             if (!searchTerm.trim()) {
                 setError("Please enter a search term");
                 return;
@@ -29,11 +31,15 @@ export function useMeals() {
         setIsLoading(true);
         setError("");
 
-        const res = await fetch(
-            !random
-                ? `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`
-                : "https://www.themealdb.com/api/json/v1/1/random.php",
-        );
+        const url = {
+            random: "https://www.themealdb.com/api/json/v1/1/random.php",
+            id: `www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`,
+            search: `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`,
+        };
+
+        const res = await fetch(url[type]);
+
+        // "www.themealdb.com/api/json/v1/1/lookup.php?i=52772"
 
         try {
             const data = await res.json();

@@ -5,6 +5,7 @@
     display: grid;
     grid-template-columns: 20rem 3fr;
     align-items: center;
+    position: relative;
 
     & > nav {
         display: grid;
@@ -79,4 +80,40 @@
 
 .btn:hover {
     background-color: var(--olive-light);
+}
+
+.bookmarks {
+    position: absolute;
+    right: 0;
+    top: 80%;
+    /* border: 1px solid black; */
+    width: 40rem;
+    list-style: none;
+    background-color: #fff;
+    padding: 1rem 0;
+    box-shadow: 2px 2px 1rem #f9f5f3;
+    z-index: 1000;
+}
+
+.bookmarks li {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+.bookmarks li img {
+    width: 6rem;
+    border-radius: 50rem;
+}
+
+.bookmarks li h5 {
+    margin-left: 1rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--cinnabar);
+}
+
+.bookmarks li:hover {
+    background-color: var(--olive-lighter);
 }

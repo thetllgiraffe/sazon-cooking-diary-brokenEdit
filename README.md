@@ -1,54 +1,72 @@
-# React + TypeScript + Vite
+# Sazón Cooking Diary 🍲
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
+<!--   <img src="public/logo.png" alt="Sazón Logo" width="200"/> -->
+  # 𝕊𝕒𝕫ó𝕟 ℂ𝕠𝕠𝕜𝕚𝕟𝕘 𝔻𝕚𝕒𝕣𝕪 🍲
+  
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  ![React](https://img.shields.io/badge/React-18.2.0-blue)
+  ![TypeScript](https://img.shields.io/badge/TypeScript-5.0.0-blue)
 
-Currently, two official plugins are available:
+</div>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A personal cooking assistant that helps you discover, save, and organize recipes from around the world - created by a programmer who's also a cooking student!
 
-## Expanding the ESLint configuration
+## Features ✨
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Random Recipe Generator** - Get inspired with random meals from [TheMealDB](https://www.themealdb.com/) API
+- **Smart Search** - Find recipes by name or ingredients
+- **Bookmark System** - Save your favorite recipes to localStorage
+- **Recipe Details** - Complete ingredients lists and step-by-step instructions
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Tech Stack 🛠️
+
+- **Frontend**: React 18 + TypeScript
+- **Styling**: Pure CSS (no frameworks)
+- **State Management**: React Context API
+- **API**: [TheMealDB](https://www.themealdb.com/)
+- **Build Tool**: Vite
+
+## Installation 💻
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/sazon-cooking-diary.git
+
+# Navigate to project directory
+cd sazon-cooking-diary
+
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+src/
+├── views/           # Reusable UI components
+├── context/         # React context providers
+├── models/          # TypeScript interfaces
+├── assets/          # Images & icons
+├── App.tsx          # Main application
+└── main.tsx         # Entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Why "Sazón"? 🌶️
+As a Venezuelan cooking student and programmer, I wanted to:
+- Pay homage to our culinary concept of "sazón" - that special touch that makes food delicious
+- Create a tool that helps me organize recipes from my cooking classes
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Combine my two passions: coding and cuisine
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Future Enhancements 🚀
+- User authentication
+- Meal planning calendar
+- Shopping list generator
+- Cooking timer integration
+- Recipe sharing feature
+
+## Screenshots 🖼️
+![Home](public/screen.jpeg)
+
+## Live Demo 🌐
+[Try Sazón Cooking Diary Online](https://sazon-cooking-diary.netlify.app/)

@@ -31,7 +31,6 @@ html {
 
 body {
     margin: 0;
-    display: none;
 }
 
 /**
@@ -39,7 +38,7 @@ body {
  */
 
 main {
-    display: inline-block;
+    display: block;
 }
 
 /**
